@@ -1,20 +1,11 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content class="bg-color">
+  <div class="header">
+    <h1>TodoApp</h1>
+    <h6 text-wrap>Taf de semaine</h6>
+    <ion-segment class="segment" (ionChange)="segmentChanged($event)" scrollable=true [(ngModel)]="segment">
+      <ion-segment-button class="segmentbtn" *ngFor="let day of days" value="{{ day }}">
+        <ion-label>{{ day }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </div>
 </ion-content>
