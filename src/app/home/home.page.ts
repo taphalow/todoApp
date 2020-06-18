@@ -19,18 +19,120 @@ export class HomePage {
   ];
   segment: any;
   currentDate: string;
-  constructor( private afdb: AngularFireDatabase) {
+  today: string;
+  myTask = '';
+  addTask: boolean;
+
+  constructor( private afDB: AngularFireDatabase) {
     const date = new Date();
     const options = { weekday: 'long' };
+    const option = { weekday: 'long', month: 'long', day: 'numeric' };
+    this.today = date.toLocaleDateString('fr-FR', option);
     this.currentDate = date.toLocaleDateString('fr-FR', options);
     this.currentDate = this.currentDate.charAt(0).toUpperCase() + this.currentDate.slice(1);
     this.segment = this.currentDate;
 
-    console.log(this.currentDate);
+    this.sortDays(this.segment);
+  }
+
+  addTaskToFirebase() {
+    this.afDB.list('Tasks/').push({
+      text: this.myTask,
+      createdDate: new Date().toISOString(),
+      day: this.segment,
+      checked: false
+    });
+    this.showForm();
+  }
+  showForm() {
+    this.addTask = !this.addTask;
+    this.myTask = '';
   }
 
   segmentChanged(ev: any) {
-    console.log('Segment changed', this.segment);
+    this.sortDays(this.segment);
+  }
+
+  sortDays(string){
+    switch (string) {
+      case "Lundi":
+        this.days = [
+          "Vendredi",
+          "Samedi",
+          "Dimanche",
+          "Lundi",
+          "Mardi",
+          "Mercredi",
+          "Jeudi"
+        ];
+        break;
+      case "Mardi":
+        this.days = [
+          "Samedi",
+          "Dimanche",
+          "Lundi",
+          "Mardi",
+          "Mercredi",
+          "Jeudi",
+          "Vendredi"
+        ];
+        break;
+      case "Mercredi":
+        this.days = [
+          "Dimanche",
+          "Lundi",
+          "Mardi",
+          "Mercredi",
+          "Jeudi",
+          "Vendredi",
+          "Samedi"
+        ];
+        break;
+      case "Jeudi":
+        this.days = [
+          "Lundi",
+          "Mardi",
+          "Mercredi",
+          "Jeudi",
+          "Vendredi",
+          "Samedi",
+          "Dimanche"
+        ];
+        break;
+      case "Vendredi":
+        this.days = [
+          "Mardi",
+          "Mercredi",
+          "Jeudi",
+          "Vendredi",
+          "Samedi",
+          "Dimanche",
+          "Lundi"
+        ];
+        break;
+      case "Samedi":
+        this.days = [
+          "Mercredi",
+          "Jeudi",
+          "Vendredi",
+          "Samedi",
+          "Dimanche",
+          "Lundi",
+          "Mardi"
+        ];
+        break;
+      case "Dimanche":
+          this.days = [
+            "Jeudi",
+            "Vendredi",
+            "Samedi",
+            "Dimanche",
+            "Lundi",
+            "Mardi",
+            "Mercredi"
+          ];
+          break;
+    }
   }
 
 }

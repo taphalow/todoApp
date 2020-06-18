@@ -1,11 +1,32 @@
-<ion-content class="bg-color">
-  <div class="header">
-    <h1>TodoApp</h1>
-    <h6 text-wrap>Taf de semaine</h6>
-    <ion-segment class="segment" (ionChange)="segmentChanged($event)" scrollable=true [(ngModel)]="segment">
-      <ion-segment-button class="segmentbtn" *ngFor="let day of days" value="{{ day }}">
-        <ion-label>{{ day }}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+<ion-content>
+  <div class="bg-img">
+    <div class="header">
+      <h1><b>Aujourd'hui</b></h1>
+      <h5>{{ today }}</h5>
+      <ion-segment class="segment" (ionChange)="segmentChanged($event)" scrollable=true [(ngModel)]="segment">
+        <ion-segment-button class="segmentbtn" *ngFor="let day of days" value="{{ day }}">
+          <ion-label>{{ day }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <ion-card *ngIf="addTask">
+      <ion-item lines="none">
+        <ion-input [(ngModel)]="myTask" placeholder="Entrer une tâche"></ion-input>
+        <ion-button (click)="addTaskToFirebase()" shape="round" slot="end">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card>
+    <ion-button *ngIf="!addTask" (click)="showForm()" expand="block" class="add-button">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Ajouter une tâche
+    </ion-button>
+
+    <ion-button *ngIf="addTask" (click)="showForm()" expand="block" class="add-button">
+      <ion-icon name="close" slot="start"></ion-icon>
+      Annuler
+    </ion-button>
+
   </div>
 </ion-content>
+
